@@ -21,3 +21,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
 app.use(methodOverride());
+
+// connect MongoDB using mongoose to our application
+mongoose.connect(config.db);
+
+// this callback will be triggered once the connection is successfully established to MongoDB
+mongoose.connection.on('connected', function () {
+  console.log('Mongoose default connection open to ' + config.db);
+});
+
+// express application will listen to port mentioned in our configuration
+app.listen(config.port, function(err){
+  if(err) throw err;
+  console.log("App listening on port " + config.port);
+});
