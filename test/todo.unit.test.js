@@ -42,4 +42,36 @@ describe('Todo Unit testing', function() {
       });
     });
   });
+
+  describe('/POST a new todo', function() {
+
+    // test will pass if the todod is saved
+    it('should create a new post', function(done) {
+      var TodoMock = sinon.mock(new Todo({todo: 'Save new todo from mock'}));
+      var todo = TodoMock.object;
+      var expectedResult = {status: true};
+      TodoMock.expects('save').yields(null, expectedResult);
+
+      todo.save(function(err, result) {
+        TodoMock.verify();
+        TodoMock.restore();
+        expect(result.status).to.be.true;
+        done();
+      });
+    });
+
+    it('should return an error if todo not saved', function(done) {
+      var TodoMock = sinon.mock(new Todo({todo: 'Save new todo from mock'}));
+      var todo = TodoMock.object;
+      var expectedResult = {status: false};
+      TodoMock.expects('save').yields(expectedResult, null);
+
+      todo.save(function(err, result) {
+        TodoMock.verify();
+        TodoMock.restore();
+        expect(err.status).to.not.be.true;
+        done();
+      });
+    });
+  });
 });
