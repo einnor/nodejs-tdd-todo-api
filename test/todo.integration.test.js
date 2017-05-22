@@ -38,4 +38,20 @@ describe('Todo CRUD integration testing', function() {
          });
     });
   });
+
+  describe('/POST save a new todo', function() {
+
+    it('should be able to save a new todo', function(done) {
+      var newTodo = {todo: 'New Todo'};
+      api.post('/api/todos')
+         .set('Accept', 'application/x-www-form-urlencoded')
+         .send(newTodo)
+         .expect('Content-Type', '/json/')
+         .expect(200)
+         .end(function(err, res) {
+            expect(res.body.status).to.be.true;
+            done();
+          });
+    });
+  });
 });

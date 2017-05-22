@@ -10,6 +10,18 @@ var TodoCtrl = {
           }
           res.json({status: true, todo: todos});
         });
+    },
+
+    // Post a todo into Database
+    PostTodo: function(req, res){
+        var todo = new Todo(req.body);
+        todo.save(function(err, todo){
+          if(err) {
+            res.json({status: false, error: "Something went wrong"});
+            return;
+          }
+          res.json({status: true, message: "Todo Saved!!", todo: todo});
+        });
     }
 }
 

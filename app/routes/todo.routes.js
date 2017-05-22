@@ -6,5 +6,6 @@ var TodoController = require('../controllers/todo.controller');
 
 // Get all todos
 router.get('/todos', TodoController.GetTodo);
+router.post('/todos', TodoController.PostTodo);
 
 module.exports = router;
