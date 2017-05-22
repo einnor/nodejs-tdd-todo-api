@@ -6,6 +6,8 @@ var methodOverride = require('method-override');
 
 var app = express();
 
+var todos = require('./app/routes/todo.routes');
+
 var config = require('./app/config/config');
 
 // log every request to the console
@@ -21,6 +23,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
 app.use(methodOverride());
+
+app.use('/api', todos);
 
 // connect MongoDB using mongoose to our application
 mongoose.connect(config.db);
