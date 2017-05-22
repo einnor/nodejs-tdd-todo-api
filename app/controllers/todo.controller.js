@@ -12,6 +12,17 @@ var TodoCtrl = {
         });
     },
 
+    // Get todo by id from the Database
+    GetOneTodo: function(req, res){
+        Todo.findOne({_id: req.params.id}, function(err, todo){
+          if(err) {
+            res.json({status: false, error: "Something went wrong"});
+            return;
+          }
+          res.json({status: true, todo: todo});
+        });
+    },
+
     // Post a todo into Database
     PostTodo: function(req, res){
         var todo = new Todo(req.body);

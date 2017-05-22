@@ -39,6 +39,54 @@ describe('Todo CRUD integration testing', function() {
     });
   });
 
+  describe('/GET/:id fetch a todo by id', function() {
+
+    var response = {};
+
+    before(function(done) {
+      var newTodo = {todo: 'Todo from hooks'};
+      api.post('/api/todos')
+         .set('Accept', 'application/x-www-form-urlencoded')
+         .send(newTodo)
+         .expect('Content-Type', '/json/')
+         .expect(200)
+         .end(function(err, res) {
+           response = res.body;
+            done();
+          });
+    });
+
+    it('should return a 200 response', function (done) {
+			api.get('/api/todos/' + response.todo._id)
+         .set('Accept', 'application/json')
+			   .expect(200, done);
+		});
+
+    it('should return an object with keys and values', function(done) {
+      api.get('/api/todos/' + response.todo._id)
+         .set('Accept', 'application/json')
+         .end(function(err, res) {
+           expect(res.body).to.have.property('status');
+           expect(res.body.status).to.not.equal(null);
+           expect(res.body.todo).to.be.a('object');
+           expect(res.body.todo).to.have.property('todo');
+           expect(res.body.todo.todo).to.not.equal(null);
+           expect(res.body.todo).to.have.property('completed');
+           expect(res.body.todo.completed).to.not.equal(null);
+           done();
+         });
+    });
+
+    it('should return status as true', function(done) {
+      api.get('/api/todos/' + response.todo._id)
+         .set('Accept', 'application/json')
+         .end(function(err, res) {
+           expect(res.body.status).to.be.true;
+           done();
+         });
+    });
+  });
+
   describe('/POST save a new todo', function() {
 
     it('should be able to save a new todo', function(done) {
