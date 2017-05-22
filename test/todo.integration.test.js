@@ -102,4 +102,36 @@ describe('Todo CRUD integration testing', function() {
           });
     });
   });
+
+  describe('/PUT/:id update a todo', function() {
+
+    var response = {};
+
+    before(function(done) {
+      var newTodo = {todo: 'Todo from hooks'};
+      api.post('/api/todos')
+         .set('Accept', 'application/x-www-form-urlencoded')
+         .send(newTodo)
+         .expect('Content-Type', '/json/')
+         .expect(200)
+         .end(function(err, res) {
+           response = res.body;
+            done();
+          });
+    });
+
+    it('should be able to update a todo using id', function(done) {
+      var updatedTodo = {completed: true};
+      api.put('/api/todos/' + response.todo._id)
+         .set('Accept', 'application/x-www-form-urlencoded')
+         .send(updatedTodo)
+         .expect('Content-Type', '/json/')
+         .expect(200)
+         .end(function(err, res) {
+           expect(res.body.status).to.be.true;
+           expect(res.body.todo.completed).to.be.true;
+           done();
+         });
+    });
+  });
 });

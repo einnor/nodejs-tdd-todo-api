@@ -33,6 +33,20 @@ var TodoCtrl = {
           }
           res.json({status: true, message: "Todo Saved!!", todo: todo});
         });
+    },
+
+    //Updating a todo status based on an ID
+    UpdateTodo: function(req, res){
+        var completed = req.body.completed;
+        Todo.findById(req.params.id, function(err, todo){
+        todo.completed = completed;
+        todo.save(function(err, todo){
+          if(err) {
+            res.json({status: false, error: "Status not updated"});
+          }
+          res.json({status: true, message: "Status updated successfully", todo: todo});
+        });
+      });
     }
 }
 

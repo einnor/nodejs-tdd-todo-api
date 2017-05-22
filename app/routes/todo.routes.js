@@ -7,5 +7,6 @@ var TodoController = require('../controllers/todo.controller');
 router.get('/todos', TodoController.GetTodo);
 router.get('/todos/:id', TodoController.GetOneTodo);
 router.post('/todos', TodoController.PostTodo);
+router.put('/todos/:id', TodoController.UpdateTodo);
 
 module.exports = router;
