@@ -6,9 +6,8 @@ var chai = require('chai');
 var expect = chai.expect;
 var should = chai.should;
 var app = require('../server.js');
-// var mongoose = require('mongoose');
-// var Todo = mongoose.model('Todo');
-var Todo = require('../app/models/todo.model');
+var mongoose = require('mongoose');
+var Todo = mongoose.model('Todo', 'TodoSchema');
 var agent = request.agent(app);
 
 describe('Todo CRUD integration testing', function() {

@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 require('sinon-mongoose');
 
 // import our todo model for unit testing
-var Todo = require('../app/models/todo.model');
+var Todo = mongoose.model('Todo', 'TodoSchema');
 
 describe('Todo Unit testing', function() {
 
