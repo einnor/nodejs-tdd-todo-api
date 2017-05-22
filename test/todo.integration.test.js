@@ -134,4 +134,31 @@ describe('Todo CRUD integration testing', function() {
          });
     });
   });
+
+  describe('/DELETE/:id delete a todo', function() {
+
+    var response = {};
+
+    before(function(done) {
+      var newTodo = {todo: 'Todo from hooks'};
+      api.post('/api/todos')
+         .set('Accept', 'application/x-www-form-urlencoded')
+         .send(newTodo)
+         .expect('Content-Type', '/json/')
+         .expect(200)
+         .end(function(err, res) {
+           response = res.body;
+            done();
+          });
+    });
+
+    it('should be able to delete a todo', function(done) {
+      api.delete('/api/todos/' + response.todo._id)
+         .expect(200)
+         .end(function(err, res) {
+           expect(res.body.status).to.be.true;
+           done();
+         });
+    });
+  });
 });

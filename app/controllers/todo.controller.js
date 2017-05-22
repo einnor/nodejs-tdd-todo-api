@@ -47,6 +47,17 @@ var TodoCtrl = {
           res.json({status: true, message: "Status updated successfully", todo: todo});
         });
       });
+    },
+
+    // Deleting a todo baed on an ID
+    DeleteTodo: function(req, res){
+      Todo.remove({_id: req.params.id}, function(err, todo){
+        if(err) {
+          res.json({status: false, error: "Deleting todo is not successfull"});
+          return;
+        }
+        res.json({status: true, message: "Todo deleted successfully!!", todo: todo});
+      });
     }
 }
 
