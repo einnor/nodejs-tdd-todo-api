@@ -74,4 +74,68 @@ describe('Todo Unit testing', function() {
       });
     });
   });
+
+  describe('/PUT update a todo by id', function() {
+
+    // test will pass if the todo is updated
+    it('should update a todo by id', function(done) {
+      var TodoMock = sinon.mock(new Todo({completed: true}));
+      var todo = TodoMock.object;
+      var expectedResult = {status: true};
+      TodoMock.expects('save').withArgs({_id: 12345}).yields(null, expectedResult);
+
+      todo.save({_id: 12345}, function(err, result) {
+        TodoMock.verify();
+        TodoMock.restore();
+        expect(result.status).to.be.true;
+        done();
+      });
+    });
+
+    // test will pass if the todo is not updated
+    it('should return an error if update fails', function(done) {
+      var TodoMock = sinon.mock(new Todo({completed: true}));
+      var todo = TodoMock.object;
+      var expectedResult = {status: false};
+      TodoMock.expects('save').withArgs({_id: 12345}).yields(expectedResult, null);
+
+      todo.save({_id: 12345}, function(err, result) {
+        TodoMock.verify();
+        TodoMock.restore();
+        expect(err.status).to.not.be.true;
+        done();
+      });
+    });
+  });
+
+  describe('/DELETE remove a todo by id', function() {
+
+    // it will pass if the todo is deleted
+    it('should delete a todo by id', function(done) {
+      var TodoMock = sinon.mock(Todo);
+      var expectedResult = {status: true};
+      TodoMock.expects('remove').withArgs({_id: 12345}).yields(null, expectedResult);
+
+      Todo.remove({_id: 12345}, function(err, result) {
+        TodoMock.verify();
+        TodoMock.restore();
+        expect(result.status).to.be.true;
+        done();
+      });
+    });
+
+    // it will pass if the todo is not deleted
+    it('should return an error if todo is not deleted', function(done) {
+      var TodoMock = sinon.mock(Todo);
+      var expectedResult = {status: false};
+      TodoMock.expects('remove').withArgs({_id: 12345}).yields(expectedResult, null);
+
+      Todo.remove({_id: 12345}, function(err, result) {
+        TodoMock.verify();
+        TodoMock.restore();
+        expect(err.status).to.not.be.true;
+        done();
+      });
+    });
+  });
 });
